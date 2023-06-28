@@ -49,12 +49,12 @@ dates<-tab$df.tickers$ref.date
 dpt=diff(pt)
 rt=tab$df.tickers$ret.adjusted.prices[-1]
 N<-length(rt)
-rte=rt[1:1966] #Ensemble d'estimation de 2010 à 2017 inclu
-rtt=rt[1967:N] #Ensemble de test de 2018 à 2021 inclu
+rte=rt[1:1966] #Ensemble d'estimation de 2010 Ã  2017 inclu
+rtt=rt[1967:N] #Ensemble de test de 2018 Ã  2021 inclu
 
 
 ###################################################
-### Préparation des dates
+### PrÃ©paration des dates
 ###################################################
 
 dates_rt = dates[-1]
@@ -63,7 +63,7 @@ dates_rte[1966]
 dates_rtt = dates_rt[1967:N]
 dates_rtt[2914]
 
-dates_rte =as.data.frame(dates_rte) #Ensemble d'estimation de 2010 à 2017 inclu
+dates_rte =as.data.frame(dates_rte) #Ensemble d'estimation de 2010 Ã  2017 inclu
 
 dates_rtt =as.data.frame(dates_rtt)
 dates
@@ -83,7 +83,7 @@ plot(dates[2:length(dates)],rt,type='l',col=1,ylab="rendement de Shiseido")
 par(op)
 
 ###################################################
-### Distribution des aléas
+### Distribution des alÃ©as
 ###################################################
 
  
@@ -107,7 +107,7 @@ hist(fitn)
 #AIC = -10252.03
 
 ###################################################
-### Estimation student asymétrique
+### Estimation student asymÃ©trique
 ###################################################
 
 
@@ -118,7 +118,7 @@ hist(fitstu)
 #AIC = -10641.31
 
 ###################################################
-### Estimation student symétrique
+### Estimation student symÃ©trique
 ###################################################
 
 fitstusy<-fit.tuv(rte, symmetric = TRUE)
@@ -129,7 +129,7 @@ hist(fitstusy)
 
 
 ###################################################
-### Gaussienne inverse asymétrique
+### Gaussienne inverse asymÃ©trique
 ###################################################
 
 
@@ -140,7 +140,7 @@ hist(fitnig)
 
 
 ###################################################
-### Hyperbolique asymétrique
+### Hyperbolique asymÃ©trique
 ###################################################
 
 
@@ -153,7 +153,7 @@ hist(fithyp)
 
 
 ###################################################
-### Hyperbolique généralisé asymétrique
+### Hyperbolique gÃ©nÃ©ralisÃ© asymÃ©trique
 ###################################################
 
 
@@ -165,7 +165,7 @@ hist(fitghypuv)
 #AIC= -10642.19
 
 ###################################################
-### Estimateur par noyau de la densité des rendements et distributions estimées
+### Estimateur par noyau de la densitÃ© des rendements et distributions estimÃ©es
 ###################################################
 
 plot(density(rte))
@@ -179,7 +179,7 @@ legend("topleft",legend =c("rte","student","student symetrique","hyp","ghyp","js
 
 
 ###################################################
-### Distribution  hyperbolique généralisée t asymétrique
+### Distribution  hyperbolique gÃ©nÃ©ralisÃ©e t asymÃ©trique
 ###################################################
 
 
@@ -194,7 +194,7 @@ par(op)
 
 
 ###################################################
-### Modèle APARCH
+### ModÃ¨le APARCH
 ###################################################
 
 
@@ -211,7 +211,7 @@ fit7bis= ugarchfit(spec = spec7bis,data = rt,out.sample=length(rtt),solver="hybr
 show(fit7bis)
 
 ###################################################
-### Modèle GJR-GARCH 
+### ModÃ¨le GJR-GARCH 
 ###################################################
 
 
@@ -245,7 +245,7 @@ fit6= ugarchfit(spec = spec6,data = rt,out.sample=length(rtt),solver="hybrid")
 show(fit6)
 
 ###################################################
-### Modèle EGARCH 
+### ModÃ¨le EGARCH 
 ###################################################
 
 
@@ -255,8 +255,8 @@ fit5 = ugarchfit(spec = spec5, data = rt,out.sample=length(rtt),solver="hybrid")
 show(fit5)
 #BIC= -5.4431
 
-#Nous voyons ici que notre gamma est significatif et positif (prise en compte de l'effet de levier), il nous reste à avoir notre alpha1 
-#significatif car il est déjà négatif.
+#Nous voyons ici que notre gamma est significatif et positif (prise en compte de l'effet de levier), il nous reste Ã  avoir notre alpha1 
+#significatif car il est dÃ©jÃ  nÃ©gatif.
 
 spec5 = ugarchspec(variance.model=list(model="eGARCH", garchOrder=c(1,1)),
                    mean.model=list(armaOrder=c(1,1)),distribution.model="nig",fixed.pars = list(alpha1=0))
@@ -318,14 +318,14 @@ fit5 = ugarchfit(spec = spec5, data = rt,out.sample=length(rtt),solver="hybrid")
 show(fit5)
 #Non le BIC est moins bien 
 
-#Augmente le m à 2 pour elever l'effet taille dans sign bias
+#Augmente le m Ã  2 pour elever l'effet taille dans sign bias
 spec5 = ugarchspec(variance.model=list(model="eGARCH", garchOrder=c(2,1)),
                    mean.model=list(armaOrder=c(1,1)),distribution.model="nig",fixed.pars = list(alpha1=0,alpha2=0))
 fit5 = ugarchfit(spec = spec5, data = rt,out.sample=length(rtt),solver="hybrid")
 show(fit5)
 
 ###################################################
-### Modèle IGARCH 
+### ModÃ¨le IGARCH 
 ###################################################
 
 spec4 = ugarchspec(variance.model=list(model="iGARCH", garchOrder=c(1,1)),
@@ -339,7 +339,7 @@ fit4 = ugarchfit(spec = spec4, data = rt,out.sample=length(rtt),solver="hybrid")
 show(fit4)
 
 ###################################################
-### Modèle ARCH-M
+### ModÃ¨le ARCH-M
 ###################################################
 
 spec3 = ugarchspec(mean.model=list(armaOrder=c(1,1),archm=TRUE),distribution.model="nig")
@@ -350,7 +350,7 @@ niegarch=newsimpact(z=NULL, fit3)
 plot(niegarch$zx,niegarch$zy, xlab=niegarch$xexpr,ylab=niegarch$yexpr ,type="l", main = "Courbe des impacts des nouvelles dans le ARCH-M")
 
 ###################################################
-### #Prise en compte de la saisonnalité
+### #Prise en compte de la saisonnalitÃ©
 ###################################################
 
 jour=format(dates, format = "%A")
@@ -384,7 +384,7 @@ show(fit2)
 ### Calcul de la VaR
 ###################################################
 
-# VaR paramétrique 
+# VaR paramÃ©trique 
 
 
 #VaR EGARCH 
@@ -408,7 +408,7 @@ VaR(rte, p=.95, method="modified")
 ### Backtesting de la VaR
 ###################################################
 
-#Backtesting de la VaR fenêtre glissante
+#Backtesting de la VaR fenÃªtre glissante
 
 library(parallel)
 # Calculate the number of cores
