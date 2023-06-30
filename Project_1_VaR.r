@@ -11,11 +11,6 @@ library(CADFtest)
 library(moments)
 library(urca)
 library(BatchGetSymbols)
-library(forecast)
-library(lmtest)
-library(TSA)
-library(tseries)
-library(FinTS)
 
 
 
@@ -47,7 +42,7 @@ rtt=rt[1967:N]
 length(rte)
 length(rt)
 ###################################################
-### Préparation des dates
+### PrÃ©paration des dates
 ###################################################
 
 dates_rt = dates[-1]
@@ -79,11 +74,11 @@ summary(ur.df(rte,type="drift",lag=0))
 summary(ur.df(rte,type="none",lag=0))
 
 
-#Autocorrelation des résidus 
+#Autocorrelation des rÃ©sidus 
 
 plot(ur.df(rte,type="none",lag=0))
 
-#Critère de Schwert
+#CritÃ¨re de Schwert
 
 length(rte)
 Schwert=as.integer(12*(length(rte)/100)^(0.25))
@@ -93,7 +88,7 @@ pmax=Schwert
 
 summary(CADFtest(rte,criterion="MAIC",type="none",max.lag.y=Schwert))
 
-#Test de Dickey-Fuller augmenté
+#Test de Dickey-Fuller augmentÃ©
 
 summary(ur.df(rte,type="none",lag=8))
 
@@ -108,7 +103,7 @@ summary(ur.df(rte,type="none",lag=1))
 summary(ur.df(rte,type="none",lag=0))
 
 
-#Deuxième analyse top-down
+#DeuxiÃ¨me analyse top-down
 
 summary(ur.df(rte,type="none",lag=pmax))
 summary(ur.df(rte,type="none",lag=pmax-1))
@@ -137,7 +132,7 @@ summary(ur.za(rte,model = "intercept",lag= 0))
 
 summary(ur.za(rte,model = "both",lag= 20))
 
-#Date de rupture (TB) est à la 1373-ième observation : "2015-08-10"
+#Date de rupture (TB) est Ã  la 1373-iÃ¨me observation : "2015-08-10"
 dates_rte = dates_rt[1:1966]
 Rupture = dates_rte[1373]
 Rupture
@@ -193,7 +188,7 @@ agostino.test(rte)
 anscombe.test(rte)
 
 ###################################################
-### Autocorrélation (des carrés) des rendements
+### AutocorrÃ©lation (des carrÃ©s) des rendements
 ###################################################
 
 
@@ -201,14 +196,14 @@ anscombe.test(rte)
 
 op<-par(mfrow=c(2,1))
 Acf(rte,main= 'ACF du rendement logarithmique' )
-Acf(rte^2,main= 'ACF du rendement logarithmique au carré' )
+Acf(rte^2,main= 'ACF du rendement logarithmique au carrÃ©' )
 par(op)
 
 #PACF
 
 op<-par(mfrow=c(2,1))
 Pacf(rte,main= 'ACF du rendement logarithmique' )
-Pacf(rte^2,main= 'ACF du rendement logarithmique au carré' )
+Pacf(rte^2,main= 'ACF du rendement logarithmique au carrÃ©' )
 par(op)
 
 
@@ -224,7 +219,7 @@ for (i in 1:40 ) {
 #Rendements normaux
 pvaluesrte
 
-#Rendements au carré 
+#Rendements au carrÃ© 
 pvaluesrte2
 
 
@@ -266,9 +261,9 @@ BIC(reg1)
 reg2 <-Arima(rte, order=c(1,0,12),fixed=c(0,0,0,0,0,0,0,0,0,0,0,NA,0,0))
 coeftest(reg2)
 BIC(reg2)
-#-10245.17, moins bon car ARMA(0,11) est probablement meilleure que ARMA(1,12), on minimise plus les p et q du modèle.
+#-10245.17, moins bon car ARMA(0,11) est probablement meilleure que ARMA(1,12), on minimise plus les p et q du modÃ¨le.
 
-#1/ Modèle marche pas car NaN 
+#1/ ModÃ¨le marche pas car NaN 
 reg3 <-Arima(rte, order=c(2,0,2),fixed=c(NA,NA,NA,NA,NA))
 coeftest(reg3)
 BIC(reg3)
@@ -299,7 +294,7 @@ coeftest(reg3)
 BIC(reg3)
 #-10210.56, moins bon 
 
-#2/ Modèle marche pas car NaN 
+#2/ ModÃ¨le marche pas car NaN 
 reg4 <-Arima(rte, order=c(3,0,3),fixed=c(NA,NA,NA,NA,NA,NA,NA))
 coeftest(reg4)
 
@@ -315,7 +310,7 @@ reg4bis <-Arima(rte, order=c(4,0,4),fixed=c(NA,NA,NA,NA,0,NA,NA,NA,NA))
 coeftest(reg4bis)
 BIC(reg4bis)
 
-#3/ Modèle marche pas car NaN 
+#3/ ModÃ¨le marche pas car NaN 
 reg5 = Arima(rte, order = c(6,0,7))
 reg5 = Arima(rte, order = c(6,0,7),fixed=c(NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0,NA))
 coeftest(reg5)
@@ -331,11 +326,11 @@ coeftest(reg5)
 
 reg5 = Arima(rte, order = c(6,0,7),fixed=c(NA,0,NA,NA,0,NA,NA,0,NA,NA,0,NA,0,NA))
 coeftest(reg5)
-#On aboutit à des valeurs manquantes
+#On aboutit Ã  des valeurs manquantes
 BIC(reg5)
 #-10187.51, moins bon 
 
-#4/ Modèle marche pas car NaN 
+#4/ ModÃ¨le marche pas car NaN 
 
 reg6 <-Arima(rte, order=c(5,0,5),fixed=c(NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA))
 coeftest(reg6)
@@ -351,14 +346,14 @@ BIC(reg6)
 
 
 ###################################################
-### RÉSIDUS 
+### RÃ‰SIDUS 
 ###################################################
 
 residu<-reg1$res
 t.test(residu)
 
 ###################################################
-### STANDARDISATION DES RÉSIDUS 
+### STANDARDISATION DES RÃ‰SIDUS 
 ###################################################
 residuv=(residu-mean(residu))/sd(residu)
 K<-40
@@ -375,7 +370,7 @@ BIC(reg1)
 
 
 ###################################################
-### CLUSTER DE VOLATILITÉ
+### CLUSTER DE VOLATILITÃ‰
 ###################################################
 
 LM1<-ArchTest(as.numeric(rte),lag=1)
@@ -421,7 +416,7 @@ ArchTest(volat$res,lag=30)
 ArchTest(volat$res,lag=40)
 
 ###################################################
-### QUEUE DE DISTRIBUTION DES RÉSIDUS
+### QUEUE DE DISTRIBUTION DES RÃ‰SIDUS
 ###################################################
 
 anscombe.test(volat$res)
@@ -441,13 +436,13 @@ sigma=sig[24:N_rte]*100
 plot(log(pt[24:N_rte]),type='l',col=2,axes=F,xlab="", ylab="")
 axis(2,at=seq(0.5,5,by=0.25))
 par(new=T)
-plot(sigma,col=3,type='l',axes = F,xlab="",ylab="",sub = "Logarithme de Shiseido journalier et écart-type récursif journalier des rendements")
+plot(sigma,col=3,type='l',axes = F,xlab="",ylab="",sub = "Logarithme de Shiseido journalier et Ã©cart-type rÃ©cursif journalier des rendements")
 axis(4,at=seq(0,3,by=0.25))
 legend("topleft", c("log(pt)","sigma"),col = c(2,3),lty=c(1,1))
 
 
 ###################################################
-### SAISONNALITÉ
+### SAISONNALITÃ‰
 ###################################################
 
 
@@ -456,7 +451,7 @@ legend("topleft", c("log(pt)","sigma"),col = c(2,3),lty=c(1,1))
 jour=format(dates_rte, format = "%A")
 tableaures <- data.frame(matrix(NA,ncol=5,nrow=4))
 colnames(tableaures) <- c("lundi","mardi","mercredi","jeudi","vendredi")
-rownames(tableaures) <- c("moyenne en %","écart-type annuel en %","skewness","kurtosis")
+rownames(tableaures) <- c("moyenne en %","Ã©cart-type annuel en %","skewness","kurtosis")
 
 rtemar<-as.numeric(rte[jour=="mardi"])
 mardi<-mean(rtemar) #moyenne journaliere
